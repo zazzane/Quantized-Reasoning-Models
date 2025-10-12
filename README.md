@@ -21,6 +21,7 @@ We provide a systematic study on quantized reasoning models, evaluating the open
 - [Evaluation](#evaluation)
 - [Visualization](#visualization)
 - [Modelzoo](#modelzoo)
+- [Replication Guides](#replication-guides)
 - [Acknowledgements](#acknowledgements)
 - [References](#references)
 
@@ -224,6 +225,39 @@ We provide the real-quantized reasoning models at [HuggingFace](https://huggingf
 | Model             | AWQ-W4G128   | GPTQ-W4G128   |
 | ----------------- | ---------------- | --------- |
 | DeepSeek-R1-Distill-Qwen | ✅ 1.5B / 7B / 14B / 32B | ✅ 1.5B / 7B / 14B / 32B |
+
+## Replication Guides
+
+We provide comprehensive guides for replicating the quantization experiments:
+
+### For DeepSeek-R1-Distill-Qwen-1.5B
+
+**[📖 Comprehensive Replication Guide](./REPLICATION_GUIDE_1.5B.md)** - Step-by-step instructions for replicating all quantization experiments on the 1.5B model, including:
+- Baseline evaluation (BF16)
+- Weight-only quantization (AWQ, GPTQ at 3-bit and 4-bit)
+- KV-cache quantization (KVQuant*, QuaRot-KV at 3-bit and 4-bit)
+- Weight-activation quantization (SmoothQuant, QuaRot, FlatQuant at 4-bit and 8-bit)
+- Results analysis and comparison
+
+**Quick Start:**
+```bash
+# Automated execution of all experiments
+bash scripts/run_all_quantization_1.5b.sh 0  # 0 is the GPU device
+
+# Analyze and compare results
+python scripts/analyze_quantization_results.py \
+    --model_name DeepSeek-R1-Distill-Qwen-1.5B \
+    --save_report --plot
+```
+
+### Future Exploration: Ultra-Low Bit Quantization
+
+**[🔬 2-bit and 1-bit Quantization Guide](./ULTRA_LOW_BIT_QUANTIZATION.md)** - Research guide for exploring extreme quantization:
+- Challenges and approaches for 2-bit quantization
+- Binary (1-bit) quantization strategies
+- Mixed-precision techniques
+- Implementation roadmap
+- Expected outcomes and recommendations
 
 ## Acknowledgements
 
