@@ -278,6 +278,21 @@ python -m make_stats_table --stats acc --models DeepSeek-R1-Distill-Qwen-1.5B
 python -m make_stats_table --stats length --models DeepSeek-R1-Distill-Qwen-1.5B
 ```
 
+## Automated Replication
+
+For automated execution of all experiments, use the master script:
+
+```bash
+# Run all quantization methods and evaluations automatically
+bash scripts/run_all_quantization_1.5b.sh 0  # 0 is the GPU device
+```
+
+This script will:
+1. Generate calibration data
+2. Run all quantization methods
+3. Evaluate all quantized models with multiple seeds
+4. Generate results summary tables
+
 ## Summary of Quantization Methods
 
 | Category | Method | Bit-widths | Notation |
