@@ -250,6 +250,31 @@ python scripts/analyze_quantization_results.py \
     --save_report --plot
 ```
 
+### Documentation Templates for Replication Results
+
+**[📊 Replication Outputs Template](./REPLICATION_OUTPUTS.md)** - Comprehensive template for documenting quantization results:
+- Detailed accuracy tables for all quantization methods
+- Performance metrics across all benchmarks (AIME, MATH-500, GSM8K, GPQA, etc.)
+- Model size comparisons and compression ratios
+- Degradation analysis by quantization category
+- Trade-off analysis and recommendations
+
+**[⚙️ Resource Benchmarking Template](./RESOURCE_BENCHMARKING.md)** - Template for documenting hardware usage:
+- Hardware specifications (GPU, CPU, memory, storage)
+- Quantization time and resource requirements
+- Inference performance metrics
+- Power consumption analysis
+- Cost estimates and optimization recommendations
+
+**Resource Monitoring Tool:**
+```bash
+# Monitor resources during experiments
+python scripts/monitor_resources.py --output logs/resource_monitor.log --interval 1
+
+# Generate summary report
+python scripts/monitor_resources.py --analyze logs/resource_monitor.log --report logs/resource_summary.md
+```
+
 ### Future Exploration: Ultra-Low Bit Quantization
 
 **[🔬 2-bit and 1-bit Quantization Guide](./ULTRA_LOW_BIT_QUANTIZATION.md)** - Research guide for exploring extreme quantization:
