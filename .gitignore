@@ -6,3 +6,4 @@ datasets*
 *experiments*
 tmp/
 sparse_logs/
+venv/
