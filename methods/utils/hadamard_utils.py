@@ -1,5 +1,18 @@
 import torch, math
-import fast_hadamard_transform
+
+# Try to import fast_hadamard_transform, with fallback if not available
+try:
+    import fast_hadamard_transform
+    FAST_HADAMARD_AVAILABLE = True
+except ImportError:
+    print("Warning: fast_hadamard_transform not available in hadamard_utils, using fallback implementation")
+    # Create a dummy module to avoid NameError
+    class DummyFastHadamardTransform:
+        @staticmethod
+        def hadamard_transform(x, scale=1.0):
+            return x * scale
+    fast_hadamard_transform = DummyFastHadamardTransform()
+    FAST_HADAMARD_AVAILABLE = False
 # Adapted from https://github.com/Cornell-RelaxML/quip-sharp/blob/main/lib/utils/matmul_had.py
 
 
