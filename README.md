@@ -36,7 +36,7 @@ git submodule update --init --recursive
 conda create -n quantized-reasoning-models python=3.12 -y
 conda activate quantized-reasoning-models
 pip install -r requirements.txt
-pip install -e ./third-party/fast-hadamard-transform
+pip install -e ./third-party/fast-hadamard-transform --no-build-isolation  # --no-build-isolation required as setup.py imports torch (see DOCUMENTATIONS/phase4/phase4_installation_report.txt)
 VLLM_USE_PRECOMPILED=1 pip install -e ./third-party/vllm
 pip install -e ./third-party/lighteval
 pip install -e ./third-party/lighteval[math]
@@ -50,6 +50,8 @@ pip install -v -e ./third-party/GPTQModel --no-build-isolation
 # Quantize model with llm-compressor
 # pip install -e ./third-party/llm-compressor
 ```
+
+> **Reproducibility Note**: For exact environment reproducibility (including PyTorch CUDA wheel selection and submodule versions), see the environment snapshots in [`DOCUMENTATIONS/phase3/`](./DOCUMENTATIONS/phase3/). For detailed replication instructions, see [`scripts/README_REPLICATION.md`](./scripts/README_REPLICATION.md).
 
 ### Data Preparation
 

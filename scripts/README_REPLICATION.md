@@ -32,7 +32,7 @@ conda activate quantized-reasoning-models
 
 # 2. Install dependencies
 pip install -r requirements.txt
-pip install -e ./third-party/fast-hadamard-transform
+pip install -e ./third-party/fast-hadamard-transform --no-build-isolation  # --no-build-isolation required as setup.py imports torch (see DOCUMENTATIONS/phase4/phase4_installation_report.txt)
 VLLM_USE_PRECOMPILED=1 pip install -e ./third-party/vllm
 pip install -e ./third-party/lighteval
 pip install -e ./third-party/lighteval[math]
@@ -243,6 +243,24 @@ Quantized-Reasoning-Models/
 **Local Hardware:**
 - RTX 4090 (Retail): ~$1,600 one-time
 - Power cost (48h @ 400W, $0.12/kWh): ~$2.30
+
+---
+
+## Environment Reproducibility Artifacts
+
+For exact environment reproducibility, refer to the Phase 3 installation snapshots in [`DOCUMENTATIONS/phase3/`](../DOCUMENTATIONS/phase3/):
+
+| File | Description |
+|------|-------------|
+| `phase3_installation_report.txt` | Installation summary including torch CUDA build tag (`torch.__version__`, `torch.version.cuda`) and wheel index URL |
+| `requirements_frozen_phase3.txt` | Exact pinned versions of all installed packages (pip freeze output) |
+| `installed_packages_phase3.txt` | Human-readable package listing (pip list output) |
+| `package_versions_phase3.txt` | Detailed package metadata for key dependencies |
+| `environment_info.txt` | Python and pip version details at environment creation |
+| `submodule_versions.txt` | Git commit hashes for all submodules |
+| `submodule_verification.txt` | Verification status of submodule initialization |
+
+These files enable exact reproduction of the development environment, including the specific CUDA wheel selection for PyTorch.
 
 ---
 
