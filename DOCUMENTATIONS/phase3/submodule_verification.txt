@@ -1,0 +1,20 @@
+=== Submodule Verification Report ===
+Generated: Sat Jan 24 03:51:12 PM CST 2026
+
+[Core Submodules]
+✓ vllm: Initialized
+✓ fast-hadamard-transform: Initialized
+✓ lighteval: Initialized
+✓ xformers: Initialized
+
+[Optional Submodules]
+✓ AutoAWQ: Initialized
+✓ GPTQModel: Initialized
+✓ llm-compressor: Initialized
+
+[Custom Extensions]
+✓ vllm_custom: Present
+✓ lighteval_custom: Present
+
+[Quantization Scripts]
+Found 7 quantization scripts

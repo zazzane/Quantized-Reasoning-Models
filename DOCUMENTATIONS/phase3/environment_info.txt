@@ -1,0 +1,10 @@
+Python 3.12.3
+pip 25.3 from /home/zane/Quantized-Reasoning-Models/.venv/lib/python3.12/site-packages/pip (python 3.12)
+Virtual environment created at: Sat Jan 24 03:39:03 PM CST 2026
+Workspace: /home/zane/Quantized-Reasoning-Models
+Package    Version
+---------- -------
+packaging  26.0
+pip        25.3
+setuptools 80.10.1
+wheel      0.46.3

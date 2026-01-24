@@ -1,0 +1,44 @@
+=== Phase 3: Base Dependencies Installation Report ===
+Date: Sat Jan 24 09:52:45 PM CST 2026
+Workspace: /home/zane/Quantized-Reasoning-Models
+
+Python Version: Python 3.12.3
+Pip Version: pip 25.3 from /home/zane/Quantized-Reasoning-Models/.venv/lib/python3.12/site-packages/pip (python 3.12)
+
+=== Installed Packages from requirements.txt ===
+accelerate               0.27.2
+datasets                 3.3.1
+img2pdf                  0.6.0
+matplotlib               3.10.1
+more-itertools           10.6.0
+ninja                    1.11.1.4
+termcolor                2.3.0
+torch                    2.5.1
+transformers             4.47.1
+zstandard                0.23.0
+
+=== PyTorch CUDA Build Information ===
+torch.__version__: 2.5.1+cu124
+torch.version.cuda: 12.4
+Wheel Index URL: Default PyPI (https://pypi.org/simple)
+Note: The '+cu124' suffix in torch.__version__ indicates this wheel was built for CUDA 12.4
+
+=== CUDA Verification ===
+CUDA Available: True
+CUDA Version: 12.4
+GPU Count: 4
+
+=== Disk Space Usage ===
+Virtual Environment Size: 5.7G	.venv
+
+=== Next Steps ===
+- Phase 4: Install fast-hadamard-transform from third-party/
+- Phase 5: Install custom vLLM with VLLM_USE_PRECOMPILED=1
+- Phase 6: Install custom lighteval with math extensions
+- Phase 7: Build xformers from source (time-intensive)
+
+=== Notes ===
+- No conflicts detected with custom builds
+- All packages installed successfully
+- CUDA support verified
+- Ready for custom kernel installations

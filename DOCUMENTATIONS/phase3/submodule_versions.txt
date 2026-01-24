@@ -1,0 +1,26 @@
+=== Submodule Commit Hashes ===
+Captured on: Sat Jan 24 03:49:57 PM CST 2026
+
+ 16335d087dd4f9cdc8933dd7a5681e4bf88311b6 third-party/AutoAWQ (v0.2.8)
+ b623b965cda5368c0e83aefaedd7388fc1a07d49 third-party/GPTQModel (v1.7.4)
+ f3dc2c60084cc076e6bb4122621a35cd0ebad4bc third-party/fast-hadamard-transform (v1.0.4)
+ eee93d7967a6b8c965960f4cada163635691b93e third-party/lighteval (v0.8.0)
+ ef175d7def225fa758bbc0f36b11f24084c60312 third-party/llm-compressor (0.5.1)
+ 5204ff5c3feeb96e8a6eea65dfcb78395f90d4d8 third-party/vllm (v0.7.0)
+ f3bc7a78e687f7987a920e7bad0dca61c927c5b4 third-party/xformers (v0.0.28.post3)
+ 73b67f290f6602fe0461d48a2c103de460f14084 third-party/xformers/third_party/composable_kernel_tiled (rocm-5.7.1-522-g73b67f290)
+ 7d49e6c7e2f8896c47f586706e67e1fb215529dc third-party/xformers/third_party/cutlass (v3.5.0)
+ bdf733be55f0b323a8cf7cc6745a81c3f43cd7f0 third-party/xformers/third_party/flash-attention (v2.6.3-24-gbdf733b)
+ 8182976c37433808b5e3a27a6536d1b74b0c23a1 third-party/xformers/third_party/flash-attention/csrc/composable_kernel (rocm-5.7.1-438-g8182976c3)
+ 756c351b4994854b2f8c6dded3821ebbb580876b third-party/xformers/third_party/flash-attention/csrc/cutlass (v3.5.0-2-g756c351b)
+
+=== Detailed Submodule Info ===
+
+[Remote URLs from .gitmodules]
+submodule.third-party/lighteval.url https://github.com/huggingface/lighteval.git
+submodule.third-party/vllm.url https://github.com/vllm-project/vllm.git
+submodule.third-party/xformers.url https://github.com/facebookresearch/xformers.git
+submodule.third-party/fast-hadamard-transform.url https://github.com/Dao-AILab/fast-hadamard-transform.git
+submodule.third-party/llm-compressor.url https://github.com/vllm-project/llm-compressor/
+submodule.third-party/AutoAWQ.url https://github.com/casper-hansen/AutoAWQ
+submodule.third-party/GPTQModel.url https://github.com/ModelCloud/GPTQModel.git
