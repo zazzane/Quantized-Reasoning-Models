@@ -1,0 +1,87 @@
+=== Phase 4: fast-hadamard-transform Installation Report ===
+Date: Sat Jan 24 2026
+Workspace: /home/zane/Quantized-Reasoning-Models
+
+=== Pre-Installation Environment ===
+- Python Version: 3.12.3
+- PyTorch Version: 2.5.1+cu124
+- CUDA Version (PyTorch): 12.4
+- CUDA Toolkit (System): 12.8 (V12.8.93)
+- ninja Version: 1.11.1
+- CUDA_HOME: /usr/local/cuda
+
+=== Installation Method ===
+Editable install with --no-build-isolation flag
+Command: pip install -e ./third-party/fast-hadamard-transform --no-build-isolation
+
+Note: --no-build-isolation was required because setup.py imports torch
+during build, and isolated build environments don't have torch available.
+
+=== Build Information ===
+- Installation Type: Editable package (JIT compilation)
+- CUDA kernels compiled on first import via torch.utils.cpp_extension
+- Build Time: ~60 seconds for pip install, JIT compilation on first use
+- Package Version: 1.0.4
+
+=== Build Log (pip install -e ./third-party/fast-hadamard-transform --no-build-isolation) ===
+Looking in indexes: https://mirrors.aliyun.com/pypi/simple/
+Obtaining file:///home/zane/Quantized-Reasoning-Models/third-party/fast-hadamard-transform
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: torch in ./.venv/lib/python3.12/site-packages (from fast_hadamard_transform==1.0.4) (2.5.1)
+Requirement already satisfied: packaging in ./.venv/lib/python3.12/site-packages (from fast_hadamard_transform==1.0.4) (26.0)
+Requirement already satisfied: ninja in ./.venv/lib/python3.12/site-packages (from fast_hadamard_transform==1.0.4) (1.11.1.4)
+[...torch dependency requirements satisfied...]
+Building wheels for collected packages: fast_hadamard_transform
+  Building editable for fast_hadamard_transform (pyproject.toml): started
+  Building editable for fast_hadamard_transform (pyproject.toml): finished with status 'done'
+  Created wheel for fast_hadamard_transform: filename=fast_hadamard_transform-1.0.4-0.editable-cp312-cp312-linux_x86_64.whl size=5130
+Successfully built fast_hadamard_transform
+Installing collected packages: fast_hadamard_transform
+Successfully installed fast_hadamard_transform-1.0.4
+
+Build Warnings: No warnings emitted
+
+=== CUDA JIT Compilation Log (first import) ===
+The CUDA kernels are compiled via JIT on first use of hadamard_transform().
+JIT compilation output is minimal when successful - the extension loads silently.
+Test verification:
+  from fast_hadamard_transform import hadamard_transform
+  x = torch.randn(2, 128, device='cuda')
+  y = hadamard_transform(x)
+  Result: Import successful, CUDA kernel test passed
+
+CUDA JIT Warnings: No warnings emitted
+
+=== Verification Results ===
+1. Import Test:
+   fast_hadamard_transform version: 1.0.4
+   Import successful!
+
+2. CUDA Kernel Test:
+   from fast_hadamard_transform import hadamard_transform
+   x = torch.randn(2, 128, device='cuda')
+   y = hadamard_transform(x)
+   CUDA kernel test passed! Input shape: torch.Size([2, 128]), Output shape: torch.Size([2, 128])
+
+=== Package Information ===
+Name: fast_hadamard_transform
+Version: 1.0.4
+Summary: Fast Hadamard Transform in CUDA, with a PyTorch interface
+Home-page: https://github.com/Dao-AILab/fast-hadamard-transform
+Author: Tri Dao
+Author-email: tri@tridao.me
+Location: /home/zane/Quantized-Reasoning-Models/.venv/lib/python3.12/site-packages
+Editable project location: /home/zane/Quantized-Reasoning-Models/third-party/fast-hadamard-transform
+Requires: ninja, packaging, torch
+
+=== Integration Notes ===
+- Required for QuaRot and QuaRot-KV quantization methods
+- Used in methods/quarot/ for Hadamard rotation transformations
+- Supports fp32, fp16, bf16 up to dimension 32768
+- Near memory-bandwidth limited performance (1.0-1.8x vs memcpy)
+
+=== Next Steps ===
+- Phase 5: Install custom vLLM with VLLM_USE_PRECOMPILED=1
