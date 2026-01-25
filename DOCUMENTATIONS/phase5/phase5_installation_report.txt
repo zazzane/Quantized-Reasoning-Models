@@ -1,0 +1,146 @@
+================================================================================
+PHASE 5: vLLM INSTALLATION REPORT
+================================================================================
+
+Date: 2026-01-25
+Installation Type: Custom Fork (editable install with precompiled binaries from PyPI wheel)
+
+================================================================================
+ENVIRONMENT INFORMATION
+================================================================================
+
+Python Version: 3.12.3 (main, Jan 8 2026, 11:30:50) [GCC 13.3.0]
+Operating System: Linux 6.8.0-63-generic
+Workspace: /home/zane/Quantized-Reasoning-Models
+
+================================================================================
+CUDA ENVIRONMENT
+================================================================================
+
+CUDA Toolkit Version: 12.8.93 (nvcc)
+PyTorch CUDA Version: 12.4
+PyTorch CXX11_ABI: False
+CUDA Available: True
+CUDA Device Count: 4
+CUDA Device Name: NVIDIA H20
+CUDA Compute Capability: 9.0 (sm_90 - Hopper architecture)
+
+================================================================================
+KEY PACKAGE VERSIONS
+================================================================================
+
+vllm==0.7.0+precompiled (editable install from ./third-party/vllm)
+torch==2.5.1+cu124
+torchvision==0.20.1
+xformers==0.0.28.post3
+numpy==1.26.4
+scipy==1.17.0
+fast_hadamard_transform==1.0.4 (editable install from third-party/)
+
+================================================================================
+INSTALLATION PROCESS
+================================================================================
+
+1. INITIAL ATTEMPT: Precompiled Installation with Nightly Wheel
+   - Command: VLLM_USE_PRECOMPILED=1 pip install -e ./third-party/vllm
+   - Result: ABI mismatch error
+   - Error: undefined symbol: _ZN3c106ivalue14ConstantString6createE...
+   - Cause: Nightly precompiled binaries compiled with CXX11_ABI=True, but
+            PyTorch 2.5.1+cu124 uses CXX11_ABI=False
+
+2. SUCCESSFUL: Custom Fork with PyPI Wheel Precompiled Binaries
+   - Step 1: Downloaded PyPI vllm==0.7.0 wheel as precompiled source
+     Command: pip download vllm==0.7.0 --no-deps -d /tmp/vllm-wheels/
+   - Step 2: Installed fork using PyPI wheel as precompiled binary source
+     Command: VLLM_USE_PRECOMPILED=1 \
+              VLLM_PRECOMPILED_WHEEL_LOCATION=/tmp/vllm-wheels/vllm-0.7.0-cp38-abi3-manylinux1_x86_64.whl \
+              pip install -e ./third-party/vllm --no-build-isolation
+   - Result: Successfully installed in ~8 seconds
+   - Version: vllm==0.7.0+precompiled
+   - Editable Location: /home/zane/Quantized-Reasoning-Models/third-party/vllm
+
+================================================================================
+DEPENDENCY RESOLUTIONS
+================================================================================
+
+1. scipy==1.17.0 - Required by vllm_custom flatquant_utils
+2. fast_hadamard_transform==1.0.4 - Rebuilt from source with --no-build-isolation
+   - Required for QuaRot and quantization transforms
+   - Successfully compiled CUDA kernels
+
+================================================================================
+VERIFICATION RESULTS
+================================================================================
+
+Test 1: vLLM Import
+  Command: import vllm; print(vllm.__version__)
+  Result: PASSED - vLLM version: 0.7.0
+
+Test 2: Core vLLM Imports
+  Command: from vllm import LLM, ModelRegistry
+  Result: PASSED - vLLM imports successful
+
+Test 3: vllm_custom Package
+  Command: from vllm_custom.model_executor.fake_quantized_models.registry import register_fake_quantized_models
+  Result: PASSED - vllm_custom imports successful
+
+Test 4: Custom Model Registration
+  Result: PASSED - All 10 custom models registered:
+    - LlamaFakeQuantizedForCausalLM
+    - LlamaFlatQuantForCausalLM
+    - LlamaKVQuantStarForCausalLM
+    - LlamaQuaRotKVForCausalLM
+    - LlamaQuaRotForCausalLM
+    - Qwen2FakeQuantizedForCausalLM
+    - Qwen2FlatQuantForCausalLM
+    - Qwen2KVQuantStarForCausalLM
+    - Qwen2QuaRotKVForCausalLM
+    - Qwen2QuaRotForCausalLM
+
+Test 5: Editable Install Verification
+  Command: pip show vllm
+  Result: PASSED
+    - Version: 0.7.0+precompiled
+    - Editable project location: /home/zane/Quantized-Reasoning-Models/third-party/vllm
+
+================================================================================
+NOTES AND OBSERVATIONS
+================================================================================
+
+1. The custom fork in third-party/vllm is now properly installed as an editable
+   package, allowing local modifications to take effect immediately.
+
+2. The VLLM_USE_PRECOMPILED=1 flag was used with VLLM_PRECOMPILED_WHEEL_LOCATION
+   pointing to the PyPI vllm==0.7.0 wheel, which provides binaries compatible
+   with PyTorch 2.5.1+cu124 (CXX11_ABI=False).
+
+3. The vllm_custom package is a local Python package that doesn't require
+   separate installation - it imports from the installed vLLM and registers
+   custom model classes at runtime.
+
+4. The NVIDIA H20 GPU (Hopper architecture, sm_90) is fully supported by the
+   installed vLLM version.
+
+5. ABI Compatibility Note: The nightly vLLM wheels from wheels.vllm.ai use
+   CXX11_ABI=True, which is incompatible with PyTorch 2.5.1+cu124 from PyPI
+   that uses CXX11_ABI=False. Using the PyPI vllm==0.7.0 wheel as the
+   precompiled source resolves this ABI mismatch.
+
+================================================================================
+DISK SPACE USAGE
+================================================================================
+
+PyPI vLLM wheel size: ~264 MB
+Estimated total vLLM + dependencies: ~500 MB
+Available disk space: 337 GB
+
+================================================================================
+READY FOR PHASE 6
+================================================================================
+
+Environment is stable and ready for LightEval installation.
+- Custom vLLM fork is fully functional (editable install)
+- Custom model registry works
+- No blocking errors or warnings
+
+================================================================================
