@@ -1,0 +1,141 @@
+================================================================================
+PHASE 6: LIGHTEVAL INSTALLATION REPORT
+================================================================================
+
+Date: 2026-01-25
+Installation Type: Dual-package architecture (base + math extras)
+
+================================================================================
+ENVIRONMENT INFORMATION
+================================================================================
+
+Python Version: 3.12
+Virtual Environment: /home/zane/Quantized-Reasoning-Models/.venv
+Workspace: /home/zane/Quantized-Reasoning-Models
+
+================================================================================
+INSTALLED PACKAGES
+================================================================================
+
+Package: lighteval
+Version: 0.8.0
+Installation Type: Editable install (-e)
+Source Location: /home/zane/Quantized-Reasoning-Models/third-party/lighteval
+Summary: A lightweight and configurable evaluation package
+
+Package: latex2sympy2_extended
+Version: 1.0.6
+Installation Type: Standard (from [math] extras)
+Summary: Convert LaTeX math to SymPy expressions
+Dependencies: antlr4-python3-runtime==4.13.2, sympy
+
+================================================================================
+INSTALLATION COMMANDS
+================================================================================
+
+Step 1 - Base package:
+  .venv/bin/pip install -e ./third-party/lighteval
+
+Step 2 - Math extensions:
+  .venv/bin/pip install -e "./third-party/lighteval[math]"
+
+================================================================================
+KEY DEPENDENCIES INSTALLED
+================================================================================
+
+Core LightEval dependencies:
+- transformers>=4.38.0
+- accelerate
+- torch<3.0,>=2.0
+- datasets>=2.14.0
+- huggingface_hub>=0.23.0
+- numpy<2
+- GitPython>=3.1.41
+- nltk==3.9.1
+- scikit-learn
+- sacrebleu
+- rouge_score==0.1.2
+- sentencepiece>=0.1.99
+- protobuf==3.20.*
+- rich
+- typer
+- colorlog
+
+Math extras:
+- latex2sympy2_extended==1.0.6
+- antlr4-python3-runtime==4.13.2
+
+================================================================================
+VERIFICATION RESULTS
+================================================================================
+
+Test 1: Custom Task Registry
+  Command: from lighteval_custom.tasks.reasoning import TASKS_TABLE
+  Result: PASSED
+  Tasks Available: ['aime24', 'aime25', 'aime90', 'math_500', 'numina_math', 'gsm8k', 'gpqa:diamond']
+
+Test 2: vLLM Integration
+  Command: from lighteval_custom.main_vllm import vllm
+  Result: PASSED
+  Output: "vLLM integration loaded successfully"
+
+Test 3: Math Extension Functionality
+  Command: from lighteval_custom.metrics.dynamic_metrics import LatexExtractionConfig, ExprExtractionConfig
+  Result: PASSED
+  Output: "Math extensions loaded"
+
+================================================================================
+ARCHITECTURE NOTES
+================================================================================
+
+The installation follows a dual-package architecture:
+
+1. lighteval (base from third-party/lighteval):
+   - Core evaluation framework
+   - Task registry system
+   - Metric computation infrastructure
+   - Model loading utilities (vLLM, TGI, Accelerate backends)
+
+2. lighteval_custom (local directory):
+   - Custom reasoning benchmarks: AIME-90, AIME-2025, MATH-500, GSM8K, GPQA-Diamond
+   - Specialized metrics for mathematical expression evaluation
+   - Custom vLLM integration (from Phase 5)
+
+================================================================================
+KNOWN ISSUES
+================================================================================
+
+1. Protobuf Version Conflict (Non-blocking):
+   - opentelemetry-proto 1.39.1 requires protobuf<7.0,>=5.0
+   - lighteval requires protobuf==3.20.*
+   - Impact: None for LightEval functionality
+   - Note: OpenTelemetry tracing may not work; evaluation functions are unaffected
+
+================================================================================
+CUSTOM TASKS CONFIGURATION
+================================================================================
+
+Task configurations from lighteval_custom/tasks/reasoning.py:
+- generation_size: 32768 (for long-form reasoning generation)
+- stop_sequence: ["</s>", "<|im_end|>", "<|endoftext|>"]
+- Evaluation parameters (temp=0.6, top_p=0.95) configured in inference.py
+
+Benchmark details:
+- aime24: AIME 2024 dataset
+- aime25: AIME 2025 dataset
+- aime90: AIME 1990-2023 (90 problems)
+- math_500: MATH-500 benchmark
+- numina_math: Numina Math dataset
+- gsm8k: Grade School Math 8K
+- gpqa:diamond: GPQA Diamond subset
+
+================================================================================
+READY FOR PHASE 7+
+================================================================================
+
+LightEval installation complete. The evaluation framework is ready for:
+- Running benchmark evaluations on quantized models
+- Custom metric computation with LaTeX expression parsing
+- Integration with vLLM inference pipeline
+
+================================================================================

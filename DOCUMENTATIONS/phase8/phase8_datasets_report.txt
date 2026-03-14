@@ -1,0 +1,79 @@
+================================================================================
+PHASE 8: MODEL AND DATASETS DOWNLOAD REPORT
+================================================================================
+
+Date: 2026-01-25
+
+================================================================================
+PHASE 8.1: MODEL DOWNLOAD
+================================================================================
+
+Model: DeepSeek-R1-Distill-Qwen-1.5B
+Location: ./modelzoo/DeepSeek-R1/DeepSeek-R1-Distill-Qwen-1.5B
+Size: 3.4G (model.safetensors)
+Status: COMPLETE
+
+================================================================================
+PHASE 8.2: CALIBRATION DATASETS
+================================================================================
+
+| Dataset        | Local Directory              | Size   | Status   |
+|----------------|------------------------------|--------|----------|
+| WikiText2      | ./datasets/wikitext          | 615M   | COMPLETE |
+| Pile           | ./datasets/pile-val-backup   | 450M   | COMPLETE |
+| NuminaMath-1.5 | ./datasets/NuminaMath-1.5    | 507M   | COMPLETE |
+
+================================================================================
+PHASE 8.3: EVALUATION BENCHMARKS
+================================================================================
+
+| Dataset        | Local Directory                | Size   | Status      |
+|----------------|--------------------------------|--------|-------------|
+| AIME-90        | ./datasets/AIME90              | 300K   | COMPLETE    |
+| AIME-2024      | ./datasets/AIME_2024           | 80K    | COMPLETE    |
+| AIME-2025      | ./datasets/aime_2025           | 124K   | COMPLETE    |
+| MATH-500       | ./datasets/MATH-500            | 488K   | COMPLETE    |
+| GSM8K          | ./datasets/gsm8k               | 5.8M   | COMPLETE    |
+| GPQA-Diamond   | ./datasets/gpqa                | 28K    | **GATED**   |
+| LiveCodeBench  | ./datasets/code_generation_lite| 4.2G   | COMPLETE    |
+
+================================================================================
+KNOWN ISSUES
+================================================================================
+
+1. GPQA-Diamond Dataset (Gated Repository)
+   - Status: Access denied (403 Forbidden)
+   - Reason: GPQA is a gated dataset requiring manual access request
+   - Action Required:
+     a. Visit https://huggingface.co/datasets/Idavidrein/gpqa
+     b. Request access to the dataset
+     c. Once approved, re-run:
+        huggingface-cli download Idavidrein/gpqa --repo-type dataset --local-dir ./datasets/gpqa
+   - Impact: GPQA-Diamond evaluation will be skipped until access is granted
+
+================================================================================
+SUMMARY
+================================================================================
+
+Model:
+- DeepSeek-R1-Distill-Qwen-1.5B: COMPLETE (3.4GB)
+
+Datasets Downloaded: 9/10
+- Calibration: 3/3 COMPLETE
+- Evaluation: 6/7 COMPLETE (GPQA requires access request)
+
+Total Downloaded Size: ~9.3GB
+- Model: 3.4GB
+- Datasets: ~5.9GB
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. Phase 8.4: Generate reasoning calibration data from NuminaMath-1.5
+   Command: bash scripts/data/gen_calib.sh ./modelzoo/DeepSeek-R1/DeepSeek-R1-Distill-Qwen-1.5B 0
+
+2. Request GPQA access (optional, can be done later):
+   URL: https://huggingface.co/datasets/Idavidrein/gpqa
+
+================================================================================

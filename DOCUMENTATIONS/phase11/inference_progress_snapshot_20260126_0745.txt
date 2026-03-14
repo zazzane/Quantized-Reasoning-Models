@@ -1,0 +1,133 @@
+================================================================================
+INFERENCE PROGRESS SNAPSHOT
+================================================================================
+
+Timestamp: 2026-01-26 07:45 CST
+Machine: iZbp1fax8vub5x0s6qvjqbZ
+
+================================================================================
+ACTIVE PROCESSES
+================================================================================
+
+GPU 0: FREE (reserved, not in use)
+GPU 1: FREE (FlatQuant training completed)
+GPU 2: Phase 13 - Baseline Inference (active)
+GPU 3: Phase 14a - AWQ Inference (active)
+
+tmux Sessions:
+  - flatquant: COMPLETED (can be terminated)
+  - phase13: RUNNING - Baseline inference
+  - phase14a: RUNNING - AWQ W3G128 inference
+
+================================================================================
+INFERENCE OUTPUT STATUS
+================================================================================
+
+Benchmarks: AIME-2025, AIME-90, MATH-500, GSM8K, GPQA-Diamond, LiveCodeBench
+
+--- Baseline (DeepSeek-R1-Distill-Qwen-1.5B) ---
+  seed42: 4/6 [AIME-2025, AIME-90, MATH-500, GSM8K]
+  seed43: 3/6 [GSM8K, LiveCodeBench, MATH-500]
+  seed44: 0/6 []
+
+--- AWQ W4G128 ---
+  seed42: 5/6 [AIME-2025, AIME-90, MATH-500, GSM8K, LiveCodeBench]
+  seed43: 0/6
+  seed44: 0/6
+
+--- AWQ W3G128 ---
+  seed42: 3/6 [AIME-2025, AIME-90, MATH-500] (GSM8K in progress)
+  seed43: 0/6
+  seed44: 0/6
+
+--- GPTQ W4G128 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- GPTQ W3G128 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- KVQuant* KV4 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- KVQuant* KV3 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- QuaRot-KV KV4 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- QuaRot-KV KV3 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- SmoothQuant W8A8KV8 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- QuaRot W8A8KV8 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- QuaRot W4A4KV4 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- FlatQuant W4A4KV4 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+--- FlatQuant W8A8KV8 ---
+  seed42: 0/6
+  seed43: 0/6
+  seed44: 0/6
+
+================================================================================
+CURRENT PROCESS DETAILS
+================================================================================
+
+Phase 13 (GPU 2) - Baseline Inference:
+  Model: deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
+  Current: LiveCodeBench seed42 @ ~14%
+  Command: for seed in 42 43 44; do CUDA_VISIBLE_DEVICES=2 bash scripts/inference/inference.sh deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B 2 $seed; done
+
+Phase 14a (GPU 3) - AWQ Inference:
+  Model: AWQ W3G128
+  Current: GSM8K seed42 @ ~17%
+  Note: After completing W3G128 seed42, this session will end.
+        Needs restart for additional AWQ seeds.
+
+================================================================================
+REMAINING WORK SUMMARY
+================================================================================
+
+Total models to evaluate: 15 (1 baseline + 14 quantized)
+Total seeds per model: 3 (42, 43, 44)
+Total benchmarks per seed: 6
+Total inference runs needed: 15 × 3 × 6 = 270
+
+Completed runs: ~23
+Remaining runs: ~247
+
+Priority order for next phases:
+1. Complete baseline (Phase 13) - IN PROGRESS
+2. Complete AWQ all seeds (Phase 14a continues, need 14a-extended)
+3. GPTQ all seeds
+4. KV-Cache models (KVQuant*, QuaRot-KV)
+5. Weight-Activation models (SmoothQuant, QuaRot W8A8/W4A4)
+6. FlatQuant models (newly available)
+
+================================================================================
