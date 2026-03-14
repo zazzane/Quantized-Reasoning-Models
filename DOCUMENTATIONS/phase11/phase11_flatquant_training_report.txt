@@ -1,0 +1,141 @@
+================================================================================
+PHASE 11: FlatQuant Training Report
+DeepSeek-R1-Distill-Qwen-1.5B
+================================================================================
+
+Generated: 2026-01-26 07:45 CST
+Machine: iZbp1fax8vub5x0s6qvjqbZ
+GPU Used: NVIDIA H20 (GPU 1)
+
+================================================================================
+SUMMARY
+================================================================================
+
+Status: COMPLETE ✓
+
+Models Trained:
+  1. FlatQuant W4A4KV4 - COMPLETE
+  2. FlatQuant W8A8KV8 - COMPLETE
+
+================================================================================
+MODEL 1: FlatQuant W4A4KV4
+================================================================================
+
+Output Path: ./outputs/modelzoo/flatquant/DeepSeek-R1-Distill-Qwen-1.5B-flatquant-w4a4kv4-tp1/
+Log Path: ./outputs/modelzoo/flatquant/logs/DeepSeek-R1-Distill-Qwen-1.5B/w4a4/w4a4kv4tp1/
+
+Training Timeline:
+  Start Time: 2026-01-25 22:44:19
+  End Time:   2026-01-26 04:04:19
+  Duration:   ~5h 20m
+
+Configuration:
+  Weight Bits (w_bits): 4
+  Activation Bits (a_bits): 4
+  KV-Cache Bits (k_bits/v_bits): 4
+  Group Size (k_groupsize): 128
+  Epochs: 15
+  Learning Rate: 0.005
+  Calibration Dataset: wikitext2
+  Calibration Batch Size: 4
+
+Final Layer MSE Values (Layer 27):
+  Iteration 0:  64.18
+  Iteration 14: 27.56 (final)
+
+Perplexity Evaluation:
+  Dataset: wikitext2
+  PPL: 47.006
+
+Model Files:
+  - config.json (1.1 KB)
+  - flat_matrices.pth (19 MB)
+  - generation_config.json (181 B)
+  - model.safetensors (3.3 GB)
+  - tokenizer.json (10.9 MB)
+  - tokenizer_config.json (6.6 KB)
+  - special_tokens_map.json (485 B)
+
+Total Size: 3.4 GB
+
+================================================================================
+MODEL 2: FlatQuant W8A8KV8
+================================================================================
+
+Output Path: ./outputs/modelzoo/flatquant/DeepSeek-R1-Distill-Qwen-1.5B-flatquant-w8a8kv8-tp1/
+Log Path: ./outputs/modelzoo/flatquant/logs/DeepSeek-R1-Distill-Qwen-1.5B/w8a8/w8a8kv8tp1/
+
+Training Timeline:
+  Start Time: 2026-01-26 04:04:23
+  End Time:   2026-01-26 07:38:23
+  Duration:   ~3h 34m
+
+Configuration:
+  Weight Bits (w_bits): 8
+  Activation Bits (a_bits): 8
+  KV-Cache Bits (k_bits/v_bits): 8
+  Group Size (k_groupsize): 128
+  Epochs: 15
+  Learning Rate: 0.005
+  Calibration Dataset: wikitext2
+  Calibration Batch Size: 4
+
+Final Layer MSE Values (Layer 27):
+  Iteration 0:  0.251
+  Iteration 14: 0.139 (final)
+
+Perplexity Evaluation:
+  Dataset: wikitext2
+  PPL: 49.362
+
+Model Files:
+  - config.json (1.1 KB)
+  - flat_matrices.pth (19 MB)
+  - generation_config.json (181 B)
+  - model.safetensors (3.3 GB)
+  - tokenizer.json (10.9 MB)
+  - tokenizer_config.json (6.6 KB)
+  - special_tokens_map.json (485 B)
+
+Total Size: 3.4 GB
+
+================================================================================
+QUANTIZED MODELS INVENTORY (All Complete)
+================================================================================
+
+Weight-Only Quantization:
+  ✓ AWQ W4G128:       ./outputs/modelzoo/awq/DeepSeek-R1-Distill-Qwen-1.5B-awq-w4g128-tp1
+  ✓ AWQ W3G128:       ./outputs/modelzoo/awq/DeepSeek-R1-Distill-Qwen-1.5B-awq-w3g128-tp1
+  ✓ GPTQ W4G128:      ./outputs/modelzoo/gptq/DeepSeek-R1-Distill-Qwen-1.5B-gptq-w4g128-tp1
+  ✓ GPTQ W3G128:      ./outputs/modelzoo/gptq/DeepSeek-R1-Distill-Qwen-1.5B-gptq-w3g128-tp1
+
+KV-Cache Quantization:
+  ✓ KVQuant* KV4:     ./outputs/modelzoo/kvquant_star/DeepSeek-R1-Distill-Qwen-1.5B-kvquant_star-kv4-tp1
+  ✓ KVQuant* KV3:     ./outputs/modelzoo/kvquant_star/DeepSeek-R1-Distill-Qwen-1.5B-kvquant_star-kv3-tp1
+  ✓ QuaRot-KV KV4:    ./outputs/modelzoo/quarot/DeepSeek-R1-Distill-Qwen-1.5B-quarot-kv4-tp1
+  ✓ QuaRot-KV KV3:    ./outputs/modelzoo/quarot/DeepSeek-R1-Distill-Qwen-1.5B-quarot-kv3-tp1
+
+Weight-Activation Quantization:
+  ✓ SmoothQuant W8A8: ./outputs/modelzoo/smoothquant/DeepSeek-R1-Distill-Qwen-1.5B-smoothquant-w8a8kv8-tp1
+  ✓ QuaRot W8A8KV8:   ./outputs/modelzoo/quarot/DeepSeek-R1-Distill-Qwen-1.5B-quarot-w8a8kv8-tp1
+  ✓ QuaRot W4A4KV4:   ./outputs/modelzoo/quarot/DeepSeek-R1-Distill-Qwen-1.5B-quarot-w4a4kv4-tp1
+  ✓ FlatQuant W4A4KV4: ./outputs/modelzoo/flatquant/DeepSeek-R1-Distill-Qwen-1.5B-flatquant-w4a4kv4-tp1
+  ✓ FlatQuant W8A8KV8: ./outputs/modelzoo/flatquant/DeepSeek-R1-Distill-Qwen-1.5B-flatquant-w8a8kv8-tp1
+
+Total: 13 quantized models ready for inference
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+Phase 11 (Quantization Training): COMPLETE
+Phase 13 (Baseline Inference): IN PROGRESS
+Phase 14 (Quantized Model Inference): IN PROGRESS
+
+Remaining inference work:
+- Baseline: Complete seeds 42, 43, 44 (6 benchmarks each)
+- Weight-Only: AWQ, GPTQ for all seeds
+- KV-Cache: KVQuant*, QuaRot-KV for all seeds
+- Weight-Activation: SmoothQuant, QuaRot, FlatQuant for all seeds
+
+================================================================================
