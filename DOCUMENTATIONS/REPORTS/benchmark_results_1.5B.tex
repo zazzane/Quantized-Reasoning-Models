@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{landscape, margin=0.5in}
+
+\usepackage{multirow}
+\usepackage{graphicx} 
+\usepackage[table]{xcolor} 
+\usepackage{booktabs} 
+\usepackage{caption}
+\usepackage{float}
+
+\definecolor{papergreen}{RGB}{198, 239, 206}
+\definecolor{paperorange}{RGB}{255, 235, 156}
+\definecolor{paperred}{RGB}{255, 199, 206}
+\definecolor{deltagreen}{RGB}{220, 255, 220}
+\definecolor{deltared}{RGB}{255, 220, 220}
+
+\title{Replication Report: DeepSeek-R1-Distill-Qwen-1.5B}
+\author{Replication Benchmark}
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Summary of Findings}
+This document compares the locally replicated benchmarks against the original research paper results. 
+\begin{itemize}
+    \item \textbf{Baseline:} Local BF16 baseline outperformed the paper's baseline (+0.71 Avg).
+    \item \textbf{Critical Failures:} All \textbf{QuaRot} variants (KV4, KV3, W8A8, W4A4) failed catastrophically (~0.6 Avg), consistent with paper's KV-Cache QuaRot but contradicting paper's Weight+Act QuaRot results.
+    \item \textbf{Metric Adjustment:} The paper's "Avg" originally included GPQA. For this comparison, the paper's average was \underline{recalculated} using only the 4 common metrics (AIME, MATH, GSM8K, LCB).
+\end{itemize}
+
+\begin{table*}[h]
+\centering
+\caption{\textbf{Reference: Original Paper Results} (GPQA Excluded). Averages recalculated to match User metrics.}
+\label{tab:paper_ref}
+\resizebox{0.95\textwidth}{!}{%
+\begin{tabular}{llccccc|c}
+\toprule
+\textbf{Quantization} & \textbf{Method} & \textbf{AIME-120} & \textbf{MATH-500} & \textbf{GSM8K} & \textbf{LiveCodeBench} & \textbf{Avg (No GPQA)} & \textbf{Status} \\
+\midrule
+\textbf{BF16} & Baseline & 23.3 & 84.7 & 84.5 & 16.4 & \textbf{52.23} & - \\
+\midrule
+\multirow{4}{*}{Weight-Only} 
+ & AWQ (W4) & 21.1 & 81.4 & 82.7 & 13.9 & 49.78 & \cellcolor{paperorange}Fair \\
+ & GPTQ (W4) & 21.4 & 83.0 & 83.3 & 13.4 & 50.28 & \cellcolor{paperorange}Fair \\
+ & AWQ (W3) & 4.4 & 48.1 & 64.5 & 3.2 & 30.05 & \cellcolor{paperred}Risky \\
+ & GPTQ (W3) & 15.6 & 75.3 & 77.8 & 8.7 & 44.35 & \cellcolor{paperred}Risky \\
+\midrule
+\multirow{4}{*}{KV-Cache} 
+ & KVQuant (KV4) & 20.3 & 83.9 & 84.2 & 15.9 & 51.08 & \cellcolor{papergreen}Lossless \\
+ & QuaRot (KV4) & 0.3 & 1.5 & 0.9 & 0.0 & 0.68 & \cellcolor{paperred}Fail \\
+ & KVQuant (KV3) & 6.7 & 65.7 & 70.2 & 10.8 & 38.35 & \cellcolor{paperred}Risky \\
+ & QuaRot (KV3) & 0.0 & 1.3 & 0.9 & 0.0 & 0.55 & \cellcolor{paperred}Fail \\
+\midrule
+\multirow{5}{*}{Weight+Act.} 
+ & SmoothQuant (W8) & 16.9 & 78.9 & 83.0 & 15.7 & 48.63 & \cellcolor{papergreen}Lossless \\
+ & QuaRot (W8) & 22.8 & 84.2 & 83.8 & 15.7 & \textbf{51.63} & \cellcolor{papergreen}Lossless \\
+ & FlatQuant (W8) & 22.5 & 85.0 & 84.7 & 16.8 & 52.25 & \cellcolor{papergreen}Lossless \\
+ & FlatQuant (W4) & 8.6 & 66.1 & 76.8 & 7.5 & 39.75 & \cellcolor{paperred}Risky \\
+ & MXFP4 (W4) & 0.0 & 1.1 & 0.6 & 0.0 & 0.43 & \cellcolor{paperred}Fail \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\begin{table*}[h]
+\centering
+\caption{\textbf{Replication: User Benchmark Results} (Mean across 3 seeds). Updated with QuaRot KV3/KV4 results.}
+\label{tab:user_bench}
+\resizebox{0.95\textwidth}{!}{%
+\begin{tabular}{llccccc|c}
+\toprule
+\textbf{Quantization} & \textbf{Method} & \textbf{AIME-120} & \textbf{MATH-500} & \textbf{GSM8K} & \textbf{LiveCodeBench} & \textbf{Avg.} & \textbf{Drop} \\
+\midrule
+\textbf{BF16} & Baseline & 24.44 & 85.27 & 84.76 & 17.29 & \textbf{52.94} & 0.00 \\
+\midrule
+\multirow{4}{*}{Weight-Only} 
+ & AWQ (W4) & 21.39 & 81.87 & 82.11 & 12.94 & 49.57 & 3.37 \\
+ & GPTQ (W4) & 18.06 & 82.87 & 83.09 & 12.56 & 49.14 & 3.80 \\
+ & AWQ (W3) & 5.00 & 43.87 & 63.13 & 3.36 & 28.84 & 24.10 \\
+ & GPTQ (W3) & 9.58 & 70.60 & 75.54 & 7.46 & 40.80 & 12.14 \\
+\midrule
+\multirow{4}{*}{KV-Cache} 
+ & KVQuant (KV4) & 23.06 & 83.40 & 83.60 & 15.05 & 51.28 & 1.66 \\
+ & \textbf{QuaRot (KV4)} & \textbf{0.00} & \textbf{1.33} & \textbf{0.94} & \textbf{0.00} & \textbf{0.57} & 52.37 \\
+ & KVQuant (KV3) & 6.11 & 63.87 & 69.02 & 8.46 & 36.86 & 16.08 \\
+ & \textbf{QuaRot (KV3)} & \textbf{0.00} & \textbf{1.33} & \textbf{0.94} & \textbf{0.00} & \textbf{0.57} & 52.37 \\
+\midrule
+\multirow{5}{*}{Weight+Act.} 
+ & SmoothQuant (W8) & 12.22 & 72.27 & 80.52 & 14.05 & 44.76 & 8.18 \\
+ & \textbf{QuaRot (W8)} & \textbf{0.00} & \textbf{1.53} & \textbf{1.11} & \textbf{0.00} & \textbf{0.66} & 52.28 \\
+ & \textbf{QuaRot (W4)} & \textbf{0.00} & \textbf{1.60} & \textbf{0.73} & \textbf{0.00} & \textbf{0.58} & 52.36 \\
+ & FlatQuant (W8) & 25.28 & 84.87 & 84.56 & 16.67 & 52.84 & 0.10 \\
+ & FlatQuant (W4) & 6.11 & 59.67 & 69.35 & 6.22 & 35.34 & 17.60 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\begin{table*}[h]
+\centering
+\caption{\textbf{Gap Analysis:} Difference between Replication and Paper ($\Delta = \text{User} - \text{Paper}$). Red indicates replication underperformed paper.}
+\label{tab:comparison}
+\resizebox{0.95\textwidth}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Quantization} & \textbf{Method} & \textbf{AIME} $\Delta$ & \textbf{MATH} $\Delta$ & \textbf{GSM8K} $\Delta$ & \textbf{LCB} $\Delta$ & \textbf{Avg} $\Delta$ \\
+\midrule
+\textbf{BF16} & Baseline & \cellcolor{deltagreen}+1.14 & \cellcolor{deltagreen}+0.57 & \cellcolor{deltagreen}+0.26 & \cellcolor{deltagreen}+0.89 & \cellcolor{deltagreen}\textbf{+0.71} \\
+\midrule
+\multirow{4}{*}{Weight-Only} 
+ & AWQ (W4) & \cellcolor{deltagreen}+0.29 & \cellcolor{deltagreen}+0.47 & \cellcolor{deltared}-0.59 & \cellcolor{deltared}-0.96 & \cellcolor{deltared}-0.21 \\
+ & GPTQ (W4) & \cellcolor{deltared}-3.34 & \cellcolor{deltared}-0.13 & \cellcolor{deltared}-0.21 & \cellcolor{deltared}-0.84 & \cellcolor{deltared}-1.14 \\
+ & AWQ (W3) & \cellcolor{deltagreen}+0.60 & \cellcolor{deltared}-4.23 & \cellcolor{deltared}-1.37 & \cellcolor{deltagreen}+0.16 & \cellcolor{deltared}-1.21 \\
+ & GPTQ (W3) & \cellcolor{deltared}-6.02 & \cellcolor{deltared}-4.70 & \cellcolor{deltared}-2.26 & \cellcolor{deltared}-1.24 & \cellcolor{deltared}-3.55 \\
+\midrule
+\multirow{4}{*}{KV-Cache} 
+ & KVQuant (KV4) & \cellcolor{deltagreen}+2.76 & \cellcolor{deltared}-0.50 & \cellcolor{deltared}-0.60 & \cellcolor{deltared}-0.85 & \cellcolor{deltagreen}+0.20 \\
+ & QuaRot (KV4) & -0.30 & -0.17 & +0.04 & 0.00 & -0.11 \\
+ & KVQuant (KV3) & \cellcolor{deltared}-0.59 & \cellcolor{deltared}-1.83 & \cellcolor{deltared}-1.18 & \cellcolor{deltared}-2.34 & \cellcolor{deltared}-1.49 \\
+ & QuaRot (KV3) & 0.00 & +0.03 & +0.04 & 0.00 & +0.02 \\
+\midrule
+\multirow{4}{*}{Weight+Act.} 
+ & SmoothQuant (W8) & \cellcolor{deltared}-4.68 & \cellcolor{deltared}-6.63 & \cellcolor{deltared}-2.48 & \cellcolor{deltared}-1.65 & \cellcolor{deltared}-3.87 \\
+ & \textbf{QuaRot (W8)} & \cellcolor{deltared}\textbf{-22.80} & \cellcolor{deltared}\textbf{-82.67} & \cellcolor{deltared}\textbf{-82.69} & \cellcolor{deltared}\textbf{-15.70} & \cellcolor{deltared}\textbf{-50.97} \\
+ & FlatQuant (W8) & \cellcolor{deltagreen}+2.78 & \cellcolor{deltared}-0.13 & \cellcolor{deltared}-0.14 & \cellcolor{deltared}-0.13 & \cellcolor{deltagreen}+0.59 \\
+ & FlatQuant (W4) & \cellcolor{deltared}-2.49 & \cellcolor{deltared}-6.43 & \cellcolor{deltared}-7.45 & \cellcolor{deltared}-1.28 & \cellcolor{deltared}-4.41 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\end{document}
